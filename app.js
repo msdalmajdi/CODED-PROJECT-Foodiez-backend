@@ -5,6 +5,7 @@ const userRoutes = require("./api/users/users.routes");
 const passport = require("passport");
 const { localStrategy, jwtStrategy } = require("./middleware/passport");
 const categoriesRoutes = require("./api/categories/categories.routes");
+const recipesRoutes = require("./api/recipes/recipes.routes");
 
 const app = express();
 
@@ -18,7 +19,7 @@ passport.use(jwtStrategy);
 
 app.use("/api", userRoutes);
 app.use("/api/categories", categoriesRoutes);
-app.use("/api/recipes", categoriesRoutes);
+app.use("/api/recipes", recipesRoutes);
 
 app.use((req, res, next) => {
   const err = new Error("Not Found");

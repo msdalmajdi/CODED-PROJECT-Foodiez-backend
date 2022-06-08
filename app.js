@@ -18,6 +18,7 @@ passport.use(jwtStrategy);
 
 app.use("/api", userRoutes);
 app.use("/api/categories", categoriesRoutes);
+app.use("/api/recipes", categoriesRoutes);
 
 app.use((req, res, next) => {
   const err = new Error("Not Found");
@@ -33,7 +34,6 @@ app.use((err, req, res, next) => {
     },
   });
 });
-
 
 app.listen(8080, () => {
   console.log("The application is running on localhost:8080");

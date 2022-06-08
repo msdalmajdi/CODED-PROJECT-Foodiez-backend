@@ -12,7 +12,9 @@ exports.createRecipe = async (req, res) => {
 
 exports.getRecipes = async (req, res) => {
   try {
-    const recipes = await Recipe.find();
+    const recipes = await Recipe.find()
+      .populate("categories")
+      .populate("ingredients");
     res.status(201).json(recipes);
   } catch (err) {
     res.status(500).json("Server Error");

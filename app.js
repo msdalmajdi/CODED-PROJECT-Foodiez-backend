@@ -6,7 +6,7 @@ const passport = require("passport");
 const { localStrategy, jwtStrategy } = require("./middleware/passport");
 const categoriesRoutes = require("./api/categories/categories.routes");
 const recipesRoutes = require("./api/recipes/recipes.routes");
-
+const ingredientsRoutes = require("./api/ingredients/ingredients.routes");
 const app = express();
 
 connectDb();
@@ -20,6 +20,7 @@ passport.use(jwtStrategy);
 app.use("/api", userRoutes);
 app.use("/api/categories", categoriesRoutes);
 app.use("/api/recipes", recipesRoutes);
+app.use("/api/ingredients", ingredientsRoutes);
 
 app.use((req, res, next) => {
   const err = new Error("Not Found");

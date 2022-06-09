@@ -1,5 +1,6 @@
 const connectDb = require("./database");
 const express = require("express");
+const path = require("path");
 const cors = require("cors");
 const userRoutes = require("./api/users/users.routes");
 const passport = require("passport");
@@ -21,6 +22,8 @@ app.use("/api", userRoutes);
 app.use("/api/categories", categoriesRoutes);
 app.use("/api/recipes", recipesRoutes);
 app.use("/api/ingredients", ingredientsRoutes);
+
+app.use("/media", express.static(path.join(__dirname, "media")));
 
 app.use((req, res, next) => {
   const err = new Error("Not Found");

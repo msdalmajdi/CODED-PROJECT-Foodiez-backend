@@ -2,6 +2,9 @@ const Recipe = require("../../models/Recipe");
 
 exports.createRecipe = async (req, res) => {
   try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+    }
     const newRecipe = await Recipe.create(req.body);
     res.status(201).json(newRecipe);
   } catch (error) {

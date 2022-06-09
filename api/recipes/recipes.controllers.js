@@ -1,6 +1,13 @@
 const Recipe = require("../../models/Recipe");
 
 exports.createRecipe = async (req, res) => {
+  req.body.ingredients.length === 0
+    ? (req.body.ingredients = [])
+    : (req.body.ingredients = req.body.ingredients.split(","));
+
+  req.body.categories.length === 0
+    ? (req.body.categories = [])
+    : (req.body.categories = req.body.categories.split(","));
   try {
     if (req.file) {
       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
@@ -8,7 +15,7 @@ exports.createRecipe = async (req, res) => {
     const newRecipe = await Recipe.create(req.body);
     res.status(201).json(newRecipe);
   } catch (error) {
-    console.log("we caught the error in Recipe Create ", error);
+    console.log("we caught the error in Recipe Create ");
     res.status(500).json(error);
   }
 };

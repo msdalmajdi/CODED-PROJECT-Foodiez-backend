@@ -23,7 +23,7 @@ app.use("/api/categories", categoriesRoutes);
 app.use("/api/recipes", recipesRoutes);
 app.use("/api/ingredients", ingredientsRoutes);
 
-app.use("/media", express.static(path.join(__dirname, "media")));
+app.use(`/media`, express.static(path.join(__dirname, `media`)));
 
 app.use((req, res, next) => {
   const err = new Error("Not Found");

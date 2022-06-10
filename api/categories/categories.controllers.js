@@ -1,20 +1,19 @@
 const Category = require("../../models/Category");
 
-exports.createCategory = async (req, res) => {
+exports.createCategory = async (req, res, next) => {
   try {
     const newCategory = await Category.create(req.body);
-    res.status(201).json(newCategory);
+    res.json(newCategory);
   } catch (error) {
-    console.log("we caught the error in category Create ", error);
-    res.status(500).json(error);
+    next(error);
   }
 };
 
 exports.getCategories = async (req, res) => {
   try {
     const categories = await Category.find();
-    res.status(201).json(categories);
+    res.json(categories);
   } catch (err) {
-    res.status(500).json("Server Error");
+    next(err);
   }
 };

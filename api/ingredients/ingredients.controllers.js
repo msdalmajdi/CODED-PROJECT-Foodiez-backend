@@ -1,20 +1,32 @@
 const Ingredient = require("../../models/Ingredient");
+const Fuse = require("fuse.js");
 
-exports.createIngredient = async (req, res) => {
+const options = {
+  threshold: 0.3,
+  keys: ["name"],
+};
+
+exports.createIngredient = async (req, res, next) => {
   try {
-    const newIngredient = await Ingredient.create(req.body);
-    res.status(201).json(newIngredient);
+    const ingredients = await Ingredient.find();
+    const fuse = new Fuse(ingredients, options);
+    const result = fuse.search(req.body.name);
+    if (result.length !== 0) {
+      res.status(400).json({ message: "Cannot add duplicates" });
+    } else {
+      const newIngredient = await Ingredient.create(req.body);
+      res.status(201).json(newIngredient);
+    }
   } catch (error) {
-    console.log("we caught the error in Ingredient Create ", error);
-    res.status(500).json(error);
+    next(error);
   }
 };
 
-exports.getIngredients = async (req, res) => {
+exports.getIngredients = async (req, res, next) => {
   try {
     const ingredients = await Ingredient.find();
-    res.status(201).json(ingredients);
+    res.json(ingredients);
   } catch (err) {
-    res.status(500).json("Server Error");
+    next(error);
   }
 };

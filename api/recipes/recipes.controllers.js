@@ -23,7 +23,8 @@ exports.getRecipes = async (req, res) => {
   try {
     const recipes = await Recipe.find()
       .populate("categories")
-      .populate("ingredients");
+      .populate("ingredients")
+      .populate("user");
     res.json(recipes);
   } catch (err) {
     next(err);

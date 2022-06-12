@@ -1,23 +1,26 @@
 const Recipe = require("../../models/Recipe");
+const { default: slugify } = require("slugify");
 
 exports.createRecipe = async (req, res, next) => {
-  if (req.body.ingredients) {
-    req.body.ingredients.length === 0
-      ? (req.body.ingredients = [])
-      : (req.body.ingredients = req.body.ingredients.split(","));
-  }
-  if (req.body.categories) {
-    req.body.categories.length === 0
-      ? (req.body.categories = [])
-      : (req.body.categories = req.body.categories.split(","));
-  }
+  req.body.slug = slugify(req.body.name);
+  req.body.ingredients.length === 0
+    ? (req.body.ingredients = [])
+    : (req.body.ingredients = req.body.ingredients.split(","));
+
+  req.body.categories.length === 0
+    ? (req.body.categories = [])
+    : (req.body.categories = req.body.categories.split(","));
+
   try {
     if (req.file) {
       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
     }
     const newRecipe = await Recipe.create(req.body);
+
+    console.log(req.body);
     res.json(newRecipe);
   } catch (error) {
+    console.log("I am in error");
     next(error);
   }
 };
